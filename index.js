@@ -2,10 +2,13 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
-const routes = require('./routes/todos')
+const routes = require('./routes/todos');
+const axios = require('axios');
 
 //set up static files
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/views'));
+
 
 //add Middleware
 app.use(bodyParser.json());
@@ -13,7 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //root
 app.get('/', (req, res) => {
-  res.send('/index.html');
+  res.sendFile('index.html');
 });
 
 //set up API routes
