@@ -1,15 +1,27 @@
-const todoInput = document.querySelector('.todoInput');
+const todoInput = document.querySelector('#todoInput');
 const todoList = document.querySelector('.list');
 
+//parse entire todo list
 const populateTodos = (data) => {
-  //console.log(data);
-  data.forEach( (item, index) => {
-    console.log(item);
-    let listItem = document.createElement('li');
-    listItem.innerHTML = item.name;
-    todoList.appendChild(listItem);
+  data.forEach( (todo) => {
+    postTodo(todo);  
   })
 }
+
+//add single todo to page
+const postTodo = (todo) => {
+  let listItem = document.createElement('li');
+  let newTodo = `${todo.name}`;
+  
+  listItem.innerHTML = newTodo;
+  if(todo.completed){
+    listItem.classList.add('completed')
+  }
+
+  todoList.appendChild(listItem);
+}
+
+//ping API for todos
 const getTodos = () => {
   axios.get('/api/todos')
     .then((data) => {
@@ -20,7 +32,23 @@ const getTodos = () => {
     })
 }
 
+//creat a new todo
+const createTodo = () => {
+  let inputVal = todoInput.value;
+  axios.post('/api/todos', {
+    name: inputVal
+  })
+  .then((newTodo) => {
+    todoInput.value = "";
+    postTodo(newTodo.data) 
+  })
+  .catch(err => console.log(err));
+}
 
-//document.querySelector('body').addEventListener('click', getTodos)
+todoInput.addEventListener('keypress', (e) => {
+  if(e.charCode === 13) {
+    createTodo();
+  }
+})
 
 window.addEventListener('load', getTodos);

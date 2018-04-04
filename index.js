@@ -3,7 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const routes = require('./routes/todos');
-const axios = require('axios');
+
 
 //set up static files
 app.use(express.static(__dirname + '/public'));
