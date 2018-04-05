@@ -66,7 +66,10 @@ const updateStatus = (todo, status) => {
   axios.put(`/api/todos/${ID}`, {
     completed: `${status}`
   })
-  .then(res => console.log(res))
+  .then(res => {
+    console.log(res);
+    status ? todo.classList.add('completed') : todo.classList.remove('completed');
+  })
   .catch(err => console.log(err))
 
 }
@@ -91,16 +94,12 @@ todoList.addEventListener('click', (e) => {
 
   //handle todo status updates
   if(todo.parentElement.className === 'list') {
-    if(todo.classList.length === 0) {
-      todo.classList.add('completed')
-      updateStatus(todo, true) 
-    } else {
-      todo.classList.remove('completed')
-      updateStatus(todo, false)
-    }
+    todo.classList.length === 0 
+      ? updateStatus(todo, true) 
+      : updateStatus(todo, false)
   }
-
-});
+}
+);
 
 //populate list on window load
 window.addEventListener('load', getTodos);

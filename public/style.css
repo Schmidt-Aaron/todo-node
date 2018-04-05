@@ -63,6 +63,6 @@ li:hover {
   color: red;
 }
 
-.delete:hover{
+li:hover .delete{
   opacity:1;
 }
