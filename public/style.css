@@ -1,7 +1,68 @@
-h1{
-  color: red;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: 0.25rem;
+}
+
+h2 {
+  font-size: 2rem;
+  color: darkgray;
+}
+
+.form {
+  width: 800px;
+  margin-top: 2.5rem;
+}
+
+.form input {
+  width: 800px;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border: 0px;
+  border-bottom: 2px solid black;
+}
+
+.list {
+  width: 800px;
+  padding-left: 3rem;
+}
+
+li {
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  padding-left: 1rem;
+}
+
+li:hover {
+  background-color: #eee;
 }
 
 .completed {
   color: lightgray;
+  text-decoration: line-through;
+  
+}
+
+.delete {
+  float: right;
+  padding-right: 1rem;
+  opacity: 0;
+  transition: 0.4s;
+  color: red;
+}
+
+.delete:hover{
+  opacity:1;
 }
