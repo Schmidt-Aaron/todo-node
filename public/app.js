@@ -19,9 +19,13 @@ const populateTodos = (data) => {
   })
 }
 
-//add single todo to page
+//add a single todo to page
+//consider using a different method for storing _id
+// using data attributes results in dirtier DOM
 const postTodo = (todo) => {
   let listItem = document.createElement('li');
+  
+  //data attribute used for API 
   listItem.setAttribute('data-ID', todo._id);
   let newTodo = `${todo.name} <span class="delete">X</span>`;
   
@@ -34,7 +38,7 @@ const postTodo = (todo) => {
 }
 
 
-//creat a new todo
+//POST a new todo
 const createTodo = () => {
   let inputVal = todoInput.value;
   axios.post('/api/todos', {
@@ -47,22 +51,6 @@ const createTodo = () => {
   .catch(err => console.log(err));
 }
 
-//handle entries
-todoInput.addEventListener('keypress', (e) => {
-  if(e.charCode === 13) {
-    createTodo();
-  }
-})
-
-//handle item deletions
-todoList.addEventListener('click', (e) => {
-  if(e.target.className === 'delete') {
-    e.target.parentElement.parentElement.removeChild(e.target.parentElement);
-
-    deleteTodo(e.target.parentElement);
-  }
-});
-
 //API call to delete item
 const deleteTodo = todo => {
   let ID = todo.getAttribute('data-ID');
@@ -70,6 +58,49 @@ const deleteTodo = todo => {
   .then(res => console.log(res))
   .catch(err => console.log(err));
 }
+
+//API call to update completed status
+const updateStatus = (todo, status) => {
+  let ID = todo.getAttribute('data-ID');
+  
+  axios.put(`/api/todos/${ID}`, {
+    completed: `${status}`
+  })
+  .then(res => console.log(res))
+  .catch(err => console.log(err))
+
+}
+
+//handle entries
+todoInput.addEventListener('keypress', (e) => {
+  if(e.charCode === 13) {
+    createTodo();
+  }
+})
+
+//main event handler - refactor?
+todoList.addEventListener('click', (e) => {
+  let todo = e.target;
+
+  //handle todo deletions
+  if(todo.className === 'delete') {
+    todo.parentElement.parentElement.removeChild(todo.parentElement);
+
+    deleteTodo(todo.parentElement);
+  }
+
+  //handle todo status updates
+  if(todo.parentElement.className === 'list') {
+    if(todo.classList.length === 0) {
+      todo.classList.add('completed')
+      updateStatus(todo, true) 
+    } else {
+      todo.classList.remove('completed')
+      updateStatus(todo, false)
+    }
+  }
+
+});
 
 //populate list on window load
 window.addEventListener('load', getTodos);
