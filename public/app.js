@@ -11,7 +11,7 @@ const populateTodos = (data) => {
 //add single todo to page
 const postTodo = (todo) => {
   let listItem = document.createElement('li');
-  let newTodo = `${todo.name}`;
+  let newTodo = `${todo.name} <span class="delete">X</span>`;
   
   listItem.innerHTML = newTodo;
   if(todo.completed){
@@ -50,5 +50,9 @@ todoInput.addEventListener('keypress', (e) => {
     createTodo();
   }
 })
+
+todoList.addEventListener('click', () => {
+  console.log('click')
+});
 
 window.addEventListener('load', getTodos);
